@@ -78,21 +78,13 @@ export default function ContactSection() {
 
                   <div className="space-y-2">
                     <div className="flex justify-between items-center">
-                      <span className="text-white/80">Pazartesi - Cuma:</span>
-                      <span className="text-white font-medium">09:00 - 18:00</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-white/80">Cumartesi:</span>
-                      <span className="text-white font-medium">10:00 - 16:00</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-white/80">Pazar:</span>
-                      <span className="text-white font-medium">Kapalı</span>
+                      <span className="text-white/80">Tüm Günler:</span>
+                      <span className="text-white font-medium">7/24 Açık</span>
                     </div>
                     <div className="mt-4 pt-4 border-t border-cosmic-blue/30">
                       <div className="flex justify-between items-center">
-                        <span className="text-white/80">Dolunay Günleri:</span>
-                        <span className="text-celestial-gold font-medium">19:00 - 00:00</span>
+                        <span className="text-white/80">Online Hizmet:</span>
+                        <span className="text-celestial-gold font-medium">Her Zaman</span>
                       </div>
                     </div>
                   </div>

@@ -42,7 +42,6 @@ export default function AboutSection() {
               <blockquote className="border-l-4 border-celestial-gold pl-4 italic my-6">
                 "Yıldızlar sadece uzak güneşler değil, insanlığın doğuşuna tanıklık eden ve sayısız medeniyetin
                 bilgeliğini barındıran kadim rehberlerdir."
-                <footer className="text-celestial-gold mt-2">— Dr. Aylin Yıldız, Kurucu</footer>
               </blockquote>
             </div>
 
