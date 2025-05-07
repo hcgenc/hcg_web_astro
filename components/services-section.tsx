@@ -17,7 +17,7 @@ interface Service {
 
 export default function ServicesSection() {
   // WhatsApp phone number - replace with your actual business number
-  const whatsappNumber = "905318267868" // Format: country code + number without +
+  const whatsappNumber = "905514687143" // Format: country code + number without +
 
   const services: Service[] = [
     {
