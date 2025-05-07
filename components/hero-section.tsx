@@ -119,12 +119,12 @@ export default function HeroSection() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <div className="relative h-[400px] md:h-[500px] w-full rounded-2xl overflow-hidden glow-effect">
+            <div className="relative w-full aspect-[3/2] bg-gradient-to-b from-midnight via-deep-purple/80 to-cosmic-blue/80 rounded-2xl overflow-hidden glow-effect flex items-center justify-center p-0">
               <Image
                 src="/images/carl-sagan.png"
                 alt="Carl Sagan"
                 fill
-                className="object-cover rounded-2xl"
+                className="object-contain rounded-2xl"
                 priority
               />
               <div className="absolute inset-0 bg-gradient-to-t from-midnight via-transparent to-transparent"></div>

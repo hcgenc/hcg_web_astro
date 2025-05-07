@@ -4,7 +4,7 @@ import { motion } from "framer-motion"
 
 export default function ContactSection() {
   // WhatsApp phone number - should match the one in services-section.tsx
-  const whatsappNumber = "905318267868" // Format: country code + number without +
+  const whatsappNumber = "905514687143" // Format: country code + number without +
 
   const handleWhatsAppClick = () => {
     const message = encodeURIComponent(
@@ -48,13 +48,6 @@ export default function ContactSection() {
                   Sorularınız için bize WhatsApp üzerinden hemen ulaşabilirsiniz. 7/24 mesajlarınıza en kısa sürede
                   dönüş yapıyoruz.
                 </p>
-
-                <div
-                  className="text-xl font-medium text-celestial-gold mb-6 cursor-pointer hover:text-white transition-colors"
-                  onClick={handleWhatsAppClick}
-                >
-                  +90 531 826 7868
-                </div>
               </div>
 
               <div className="text-center">

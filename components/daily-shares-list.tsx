@@ -122,7 +122,7 @@ export function DailySharesList() {
                 </div>
                 {/* YENİ etiketi (sadece en güncel paylaşımda) */}
                 {isLatest && (
-                  <div className="absolute top-2 right-2 z-20">
+                  <div className="absolute top-2 right-2 z-20 badge-latest">
                     <span className="px-2 py-0.5 rounded-full text-xs font-medium border border-celestial-gold/60 bg-deep-purple/70 text-celestial-gold shadow-sm animate-fade-badge" style={{letterSpacing: '0.04em'}}>YENİ</span>
                   </div>
                 )}
