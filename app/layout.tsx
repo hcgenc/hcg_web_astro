@@ -14,11 +14,14 @@ const marcellus = Marcellus({
 })
 
 export const metadata: Metadata = {
-  title: "Kozmik Yollar | Astronomi ve Ruhsal Hizmetler",
+  title: "Kozmik Yollar",
   description:
     "Astronomi temelli ruhsal hizmetlerimizle yıldızlar arasında kendi yolunuzu keşfedin. Doğum haritası okumaları, kozmik uyum seansları ve kişiselleştirilmiş yıldız gözlem rehberleri.",
+  icons: {
+    icon: "/images/The Andromeda Galaxy.png",
+  },
   openGraph: {
-    title: "Kozmik Yollar | Astronomi ve Ruhsal Hizmetler",
+    title: "kozmik yollar",
     description: "Astronomi temelli ruhsal hizmetlerimizle yıldızlar arasında kendi yolunuzu keşfedin.",
     images: [
       {
@@ -29,7 +32,7 @@ export const metadata: Metadata = {
       },
     ],
   },
-    generator: 'v0.dev'
+    generator: 'v0dev'
 }
 
 export default function RootLayout({
