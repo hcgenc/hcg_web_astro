@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { supabase } from "@/lib/supabase"
+import { fetchBlogPosts } from "@/lib/supabase"
 
 interface BlogPost {
   id: string
@@ -23,13 +23,10 @@ export function BlogPostsList() {
     async function fetchPosts() {
       try {
         setLoading(true)
-        const { data, error } = await supabase
-          .from("blog_posts")
-          .select("id, slug, title, summary, image, date")
-          .order("date", { ascending: false })
+        const { data, error } = await fetchBlogPosts()
 
         if (error) {
-          throw error
+          throw new Error(error.message || 'Error fetching posts')
         }
 
         if (data) {
@@ -37,7 +34,7 @@ export function BlogPostsList() {
         }
       } catch (error: any) {
         setError(error.message)
-        console.error("Error fetching blog posts:", error)
+        console.error('Error fetching blog posts:', error)
       } finally {
         setLoading(false)
       }

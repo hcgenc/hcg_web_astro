@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { notFound, useParams } from "next/navigation"
 import Image from "next/image"
-import { supabase } from "@/lib/supabase"
+import { fetchBlogPost } from "@/lib/supabase"
 
 interface BlogPost {
   id: string
@@ -33,11 +33,7 @@ export default function BlogPage() {
 
         setLoading(true)
         
-        const { data, error } = await supabase
-          .from("blog_posts")
-          .select("id, slug, title, content, image, date")
-          .eq("slug", slug)
-          .single()
+        const { data, error } = await fetchBlogPost(slug)
 
         if (error) {
           console.error("Error fetching blog post:", error)

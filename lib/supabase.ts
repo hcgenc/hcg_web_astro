@@ -1,12 +1,14 @@
-import { createClient } from '@supabase/supabase-js'
-
-// Ortam değişkenlerini kontrol edip güvenli bir şekilde kullanıyoruz
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-
-// Ortam değişkenleri yoksa hata fırlat
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('Supabase URL ve Anon Key eksik! Lütfen .env.local dosyasını veya Vercel ortam değişkenlerini kontrol edin.')
+export async function fetchBlogPosts() {
+  const res = await fetch('/api/blog-posts')
+  return res.json()
 }
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey) 
+export async function fetchBlogPost(slug: string) {
+  const res = await fetch(`/api/blog-posts?slug=${encodeURIComponent(slug)}`)
+  return res.json()
+}
+
+export async function fetchDailyShares() {
+  const res = await fetch('/api/daily-shares')
+  return res.json()
+}

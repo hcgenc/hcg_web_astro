@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Image from "next/image"
-import { supabase } from "@/lib/supabase"
+import { fetchDailyShares } from "@/lib/supabase"
 import { AnimatePresence, motion } from "framer-motion"
 
 interface DailyShare {
@@ -26,14 +26,10 @@ export function DailySharesList() {
     async function fetchShares() {
       try {
         setLoading(true)
-        // Tüm gönderileri çek, en güncel en üstte olacak şekilde sırala
-        const { data, error } = await supabase
-          .from("daily_shares")
-          .select("id, content, date, user:user_id(name, avatar)")
-          .order("date", { ascending: false });
-        if (error) throw error;
+        const { data, error } = await fetchDailyShares()
+        if (error) throw new Error(error.message || 'Error fetching shares')
         if (data && data.length > 0) {
-          setLatestShareId(data[0].id); // En güncel gönderinin id'si
+          setLatestShareId(data[0].id)
           const formattedData = data.map((item: any) => ({
             ...item,
             user: Array.isArray(item.user) ? item.user[0] : item.user,
@@ -42,7 +38,7 @@ export function DailySharesList() {
         }
       } catch (error: any) {
         setError(error.message)
-        console.error("Error fetching daily shares:", error)
+        console.error('Error fetching daily shares:', error)
       } finally {
         setLoading(false)
       }
