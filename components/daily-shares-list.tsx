@@ -88,17 +88,16 @@ export function DailySharesList() {
                 {/* Sol: Profil ve Tarih */}
                 <div className="flex flex-col items-center mr-6 min-w-[90px]">
                   <div className="relative mb-2">
-                    <div className="absolute -inset-1 rounded-full bg-celestial-gold/20 blur-md opacity-50 group-hover:opacity-70 transition-all"></div>
                     <Image
-                      src={share.user.avatar || "/images/placeholder-user.jpg"}
-                      alt={share.user.name}
+                      src="/images/andromeda.png"
+                      alt="Admin"
                       width={56}
                       height={56}
-                      className="rounded-full object-cover border-2 border-celestial-gold shadow z-10"
+                      className="rounded-full object-cover shadow"
                     />
                   </div>
                   <div className="text-center">
-                    <div className="font-semibold text-gray-100 text-base leading-tight whitespace-nowrap">{share.user.name}</div>
+                    <div className="font-semibold text-gray-100 text-base leading-tight whitespace-nowrap">Admin</div>
                     <div className="text-xs text-gray-300 whitespace-nowrap">{new Date(share.date).toLocaleDateString('tr-TR', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
                   </div>
                 </div>

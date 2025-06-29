@@ -3,7 +3,10 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Menu, X } from "lucide-react"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { useAuth } from "@/hooks/use-auth"
+import { Menu, X, User, LogOut, LogIn } from "lucide-react"
 import { useRouter, usePathname } from "next/navigation"
 
 export default function Header() {
@@ -11,6 +14,7 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const router = useRouter()
   const pathname = usePathname()
+  const { user, signOut } = useAuth()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -61,10 +65,58 @@ export default function Header() {
           <Link href="/blog" className="border-2 border-celestial-gold text-celestial-gold font-semibold px-5 py-2 rounded-full shadow-md bg-transparent hover:bg-transparent hover:text-white hover:border-cosmic-blue transition-all">
             Paylaşımlar
           </Link>
-          <span className="relative inline-flex items-center px-5 py-2 rounded-full font-semibold text-celestial-gold border-2 border-celestial-gold/50 bg-transparent opacity-60 cursor-not-allowed select-none">
+          <Link href="/forum" className="border-2 border-celestial-gold text-celestial-gold font-semibold px-5 py-2 rounded-full shadow-md bg-transparent hover:bg-transparent hover:text-white hover:border-cosmic-blue transition-all">
             Forum
-            <span className="ml-2 px-2 py-0.5 text-xs rounded-full bg-cosmic-blue/80 text-white font-medium border border-celestial-gold/40">Yakında</span>
-          </span>
+          </Link>
+
+          {/* Auth Section */}
+          {user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                  <Avatar className="h-8 w-8">
+                    <AvatarImage src={user.avatar_url} alt={user.full_name || 'User'} />
+                    <AvatarFallback className="bg-celestial-gold text-midnight">
+                      <User className="h-4 w-4" />
+                    </AvatarFallback>
+                  </Avatar>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56 bg-midnight/95 border-celestial-gold/20 backdrop-blur-xl" align="end" forceMount>
+                <div className="flex items-center justify-start gap-2 p-2">
+                  <div className="flex flex-col space-y-1 leading-none">
+                    <p className="font-medium text-celestial-gold">
+                      {user.full_name || 'Kullanıcı'}
+                    </p>
+                    <p className="w-[200px] truncate text-sm text-white/70">
+                      {user.email}
+                    </p>
+                  </div>
+                </div>
+                <DropdownMenuItem
+                  className="text-white hover:bg-celestial-gold/10 focus:bg-celestial-gold/10 cursor-pointer"
+                  onClick={() => router.push('/profile')}
+                >
+                  <User className="mr-2 h-4 w-4" />
+                  <span>Profile Git</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  className="text-white hover:bg-celestial-gold/10 focus:bg-celestial-gold/10 cursor-pointer"
+                  onClick={() => signOut()}
+                >
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Çıkış Yap</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Link href="/forum/auth">
+              <Button className="bg-celestial-gold hover:bg-celestial-gold/80 text-midnight font-semibold">
+                <LogIn className="mr-2 h-4 w-4" />
+                Giriş Yap
+              </Button>
+            </Link>
+          )}
         </nav>
 
         {/* Mobile Menu Button */}
@@ -124,10 +176,64 @@ export default function Header() {
             >
               Paylaşımlar
             </Link>
-            <span className="relative inline-flex items-center px-5 py-2 rounded-full font-semibold text-celestial-gold border-2 border-celestial-gold/50 bg-transparent opacity-60 cursor-not-allowed select-none">
+            <Link
+              href="/forum"
+              className="border-2 border-celestial-gold text-celestial-gold font-semibold px-5 py-2 rounded-full shadow-md bg-transparent hover:bg-transparent hover:text-white hover:border-cosmic-blue transition-all"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
               Forum
-              <span className="ml-2 px-2 py-0.5 text-xs rounded-full bg-cosmic-blue/80 text-white font-medium border border-celestial-gold/40">Yakında</span>
-            </span>
+            </Link>
+
+            {/* Mobile Auth Section */}
+            {user ? (
+              <div className="pt-4 border-t border-celestial-gold/20 space-y-2">
+                <div className="flex items-center space-x-3 px-4 py-2">
+                  <Avatar className="h-8 w-8">
+                    <AvatarImage src={user.avatar_url} alt={user.full_name || 'User'} />
+                    <AvatarFallback className="bg-celestial-gold text-midnight">
+                      <User className="h-4 w-4" />
+                    </AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <p className="text-celestial-gold font-medium">
+                      {user.full_name || 'Kullanıcı'}
+                    </p>
+                    <p className="text-white/70 text-sm">{user.email}</p>
+                  </div>
+                </div>
+                <Button
+                  onClick={() => {
+                    router.push('/profile')
+                    setIsMobileMenuOpen(false)
+                  }}
+                  className="w-full bg-transparent border border-celestial-gold/30 text-white hover:bg-celestial-gold/10 mb-2"
+                >
+                  <User className="mr-2 h-4 w-4" />
+                  Profile Git
+                </Button>
+                <Button
+                  onClick={() => {
+                    signOut()
+                    setIsMobileMenuOpen(false)
+                  }}
+                  className="w-full bg-transparent border border-celestial-gold/30 text-white hover:bg-celestial-gold/10"
+                >
+                  <LogOut className="mr-2 h-4 w-4" />
+                  Çıkış Yap
+                </Button>
+              </div>
+            ) : (
+              <Link
+                href="/forum/auth"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="block"
+              >
+                <Button className="w-full bg-celestial-gold hover:bg-celestial-gold/80 text-midnight font-semibold">
+                  <LogIn className="mr-2 h-4 w-4" />
+                  Giriş Yap
+                </Button>
+              </Link>
+            )}
           </nav>
         </div>
       )}

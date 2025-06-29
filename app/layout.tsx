@@ -5,6 +5,8 @@ import "./globals.css"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { ThemeProvider } from "@/components/theme-provider"
+import { AuthProvider } from "@/hooks/use-auth"
+import { Toaster } from "@/components/ui/toaster"
 
 const marcellus = Marcellus({
   weight: "400",
@@ -46,10 +48,13 @@ export default function RootLayout({
         className={`${marcellus.variable} font-serif bg-midnight text-white min-h-screen flex flex-col overflow-x-hidden`}
       >
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-          {/* Background is now handled by the neon particles only */}
-          <Header />
-          <main className="flex-grow relative z-10 w-full overflow-x-hidden">{children}</main>
-          <Footer />
+          <AuthProvider>
+            {/* Background is now handled by the neon particles only */}
+            <Header />
+            <main className="flex-grow relative z-10 w-full overflow-x-hidden">{children}</main>
+            <Footer />
+            <Toaster />
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

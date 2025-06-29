@@ -3,12 +3,10 @@ import { supabase } from "@/lib/supabase"
 
 export interface DailyShare {
   id: string
-  user: {
-    name: string
-    avatar: string
-  }
   content: string
   date: string
+  created_at?: string
+  user_id?: string | null
 }
 
 export function useDailyShares() {
@@ -22,25 +20,13 @@ export function useDailyShares() {
       .getDailyShares()
       .then((data) => {
         if (data) {
-          setShares(
-            data.map((item: any) => {
-              const userData = Array.isArray(item.user) ? item.user[0] : item.user;
-              
-              return {
-                ...item,
-                user: {
-                  ...userData,
-                  avatar: userData.avatar
-                    .replace('Elif Demir.png', 'elif-demir.png')
-                    .replace('Mehmet Yılmaz.png', 'mehmet-yilmaz.png')
-                }
-              };
-            })
-          )
+          // API'den dönen data'yı olduğu gibi kullan
+          setShares(data)
         }
         setLoading(false)
       })
       .catch((err) => {
+        console.error('Daily shares error:', err)
         setError(err.message)
         setLoading(false)
       })
