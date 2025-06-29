@@ -19,12 +19,9 @@ export function useDailyShares() {
   useEffect(() => {
     setLoading(true)
     supabase
-      .from("daily_shares")
-      .select("id, content, date, user:user_id(name, avatar)")
-      .order("date", { ascending: false })
-      .then(({ data, error }) => {
-        if (error) setError(error.message)
-        else if (data) {
+      .getDailyShares()
+      .then((data) => {
+        if (data) {
           setShares(
             data.map((item: any) => {
               const userData = Array.isArray(item.user) ? item.user[0] : item.user;
@@ -41,6 +38,10 @@ export function useDailyShares() {
             })
           )
         }
+        setLoading(false)
+      })
+      .catch((err) => {
+        setError(err.message)
         setLoading(false)
       })
   }, [])

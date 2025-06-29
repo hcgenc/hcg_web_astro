@@ -18,12 +18,13 @@ export function useBlogPosts() {
   useEffect(() => {
     setLoading(true)
     supabase
-      .from("blog_posts")
-      .select("id, slug, title, summary, image, date")
-      .order("date", { ascending: false })
-      .then(({ data, error }) => {
-        if (error) setError(error.message)
-        else setPosts(data as BlogPost[])
+      .getBlogPosts()
+      .then((data) => {
+        setPosts(data as BlogPost[])
+        setLoading(false)
+      })
+      .catch((err) => {
+        setError(err.message)
         setLoading(false)
       })
   }, [])
