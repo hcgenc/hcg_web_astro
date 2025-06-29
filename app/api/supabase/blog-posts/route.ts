@@ -1,12 +1,14 @@
 import { NextResponse } from 'next/server'
-import { supabaseServer } from '@/lib/supabase'
+import { createServerSupabaseClient } from '@/lib/supabase'
 
 export async function GET() {
   try {
-    const { data, error } = await supabaseServer
+    const supabase = createServerSupabaseClient()
+
+    const { data, error } = await supabase
       .from('blog_posts')
-      .select('*')
-      .order('created_at', { ascending: false })
+      .select('id, slug, title, summary, image, date')
+      .order('date', { ascending: false })
 
     if (error) {
       console.error('Supabase error:', error)

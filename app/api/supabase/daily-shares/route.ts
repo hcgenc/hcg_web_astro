@@ -1,12 +1,14 @@
 import { NextResponse } from 'next/server'
-import { supabaseServer } from '@/lib/supabase'
+import { createServerSupabaseClient } from '@/lib/supabase'
 
 export async function GET() {
   try {
-    const { data, error } = await supabaseServer
+    const supabase = createServerSupabaseClient()
+
+    const { data, error } = await supabase
       .from('daily_shares')
-      .select('*')
-      .order('created_at', { ascending: false })
+      .select('id, content, date, user:user_id(name, avatar)')
+      .order('date', { ascending: false })
 
     if (error) {
       console.error('Supabase error:', error)

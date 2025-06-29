@@ -1,50 +1,11 @@
 "use client"
 
-import { useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { supabase } from "@/lib/supabase"
-
-interface BlogPost {
-  id: string
-  slug: string
-  title: string
-  summary: string
-  image: string
-  date: string
-}
+import { useBlogPosts } from "@/hooks/use-blog-posts"
 
 export function BlogPostsList() {
-  const [posts, setPosts] = useState<BlogPost[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-
-  useEffect(() => {
-    async function fetchPosts() {
-      try {
-        setLoading(true)
-        const { data, error } = await supabase
-          .from("blog_posts")
-          .select("id, slug, title, summary, image, date")
-          .order("date", { ascending: false })
-
-        if (error) {
-          throw error
-        }
-
-        if (data) {
-          setPosts(data)
-        }
-      } catch (error: any) {
-        setError(error.message)
-        console.error("Error fetching blog posts:", error)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchPosts()
-  }, [])
+  const { posts, loading, error } = useBlogPosts()
 
   if (loading) {
     return (

@@ -1,12 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 
-// Server-side Supabase client (güvenli, API keys gizli)
-export const supabaseServer = createClient(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_ANON_KEY!
-)
-
-// Client-side için API proxy kullanacağız
+// Client-side için sadece API proxy kullanacağız
 export const supabaseClient = {
   // Blog posts
   async getBlogPosts() {
@@ -37,4 +31,16 @@ export const supabaseClient = {
 }
 
 // Backward compatibility için
-export const supabase = supabaseClient 
+export const supabase = supabaseClient
+
+// Server-side Supabase client creator (sadece API routes'larda kullanılır)
+export function createServerSupabaseClient() {
+  if (typeof window !== 'undefined') {
+    throw new Error('Server-side Supabase client cannot be used on client-side')
+  }
+  
+  return createClient(
+    process.env.SUPABASE_URL!,
+    process.env.SUPABASE_ANON_KEY!
+  )
+} 

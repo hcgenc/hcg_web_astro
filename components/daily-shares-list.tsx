@@ -1,26 +1,13 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import Image from "next/image"
-import { supabase } from "@/lib/supabase"
+import { useDailyShares } from "@/hooks/use-daily-shares"
 import { AnimatePresence, motion } from "framer-motion"
 
-interface DailyShare {
-  id: string
-  content: string
-  date: string
-  user: {
-    name: string
-    avatar: string
-  }
-}
-
 export function DailySharesList() {
-  const [shares, setShares] = useState<DailyShare[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const { shares, loading, error } = useDailyShares()
   const [showAll, setShowAll] = useState(false)
-  const [latestShareId, setLatestShareId] = useState<string | null>(null)
   const [expandedShares, setExpandedShares] = useState<Set<string>>(new Set())
 
   const toggleExpanded = (shareId: string) => {
@@ -45,33 +32,7 @@ export function DailySharesList() {
     return content.substring(0, maxLength) + "..."
   }
 
-  useEffect(() => {
-    async function fetchShares() {
-      try {
-        setLoading(true)
-        // Tüm gönderileri çek, en güncel en üstte olacak şekilde sırala
-        const { data, error } = await supabase
-          .from("daily_shares")
-          .select("id, content, date, user:user_id(name, avatar)")
-          .order("date", { ascending: false });
-        if (error) throw error;
-        if (data && data.length > 0) {
-          setLatestShareId(data[0].id); // En güncel gönderinin id'si
-          const formattedData = data.map((item: any) => ({
-            ...item,
-            user: Array.isArray(item.user) ? item.user[0] : item.user,
-          }))
-          setShares(formattedData)
-        }
-      } catch (error: any) {
-        setError(error.message)
-        console.error("Error fetching daily shares:", error)
-      } finally {
-        setLoading(false)
-      }
-    }
-    fetchShares()
-  }, [])
+
 
   if (loading) {
     return (
@@ -101,6 +62,7 @@ export function DailySharesList() {
   const visibleShares = showAll ? shares : shares.slice(0, 3)
   const hasMore = shares.length > 3 && !showAll
   const canShowLess = shares.length > 3 && showAll
+  const latestShareId = shares.length > 0 ? shares[0].id : null
 
   return (
     <div className="flex flex-col gap-5">

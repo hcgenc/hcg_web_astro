@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabaseServer } from '@/lib/supabase'
+import { createServerSupabaseClient } from '@/lib/supabase'
 
 export async function POST(request: NextRequest) {
   try {
@@ -12,7 +12,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Table not allowed' }, { status: 403 })
     }
 
-    let query = supabaseServer.from(table).select(select)
+    const supabase = createServerSupabaseClient()
+
+    let query = supabase.from(table).select(select)
 
     // Filtreleri uygula
     Object.entries(filters).forEach(([key, value]) => {
